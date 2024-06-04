@@ -1,0 +1,21 @@
+﻿services:
+  content.api:
+    image: blog-platform.services.content-api
+    build:
+      context: .
+      dockerfile: Content.API/Dockerfile
+    environment:
+      - DatabaseSettings__ConnectionString=Host=content.db;Port=5432;Database=BlogPlatformContentDb;Username=root;Password=root
+    ports:
+      - "7000:80"
+    depends_on:
+        - content.db
+  
+  content.db:
+    image: postgres:latest
+    ports:
+    - "5432:5432"
+    environment:
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "root"
+      POSTGRES_DB: "BlogPlatformContentDb"
