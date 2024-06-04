@@ -1,3 +1,9 @@
+using Content.API.Middleware;
+using Content.Application;
+using Content.Infrastructure;
+using Content.Infrastructure.DataProvider;
+using Microsoft.EntityFrameworkCore;
+
 namespace Content.API;
 
 public class Program
@@ -6,27 +12,47 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
-
+        builder.Services.AddApplication();
+        builder.Services.AddInfrastructure(builder.Configuration);
         builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
         var app = builder.Build();
+        
+        using (var scope = app.Services.CreateScope())
+        {
+            try
+            {
+                var context = scope.ServiceProvider.GetRequiredService<ContentDbContext>();
+                context.Database.Migrate();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            
+        }
 
-        // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint(url: "/swagger/v1/swagger.json", name: "Content.API v1");
+                c.RoutePrefix = string.Empty;
+            });
         }
-
+        
+        app.UseCors(options =>
+        {
+            options.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
         app.UseAuthorization();
-
-
         app.MapControllers();
-
+        app.UseCustomExceptionHandler();
         app.Run();
     }
 }

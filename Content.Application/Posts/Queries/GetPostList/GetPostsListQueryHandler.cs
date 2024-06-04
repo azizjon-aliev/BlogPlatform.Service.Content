@@ -1,6 +1,7 @@
 using AutoMapper;
 using Content.Application.Common.Contracts.Repositories;
 using Content.Application.Posts.Responses;
+using Content.Domain.Entities;
 using MediatR;
 
 namespace Content.Application.Posts.Queries.GetPostList;
