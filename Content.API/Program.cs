@@ -19,7 +19,7 @@ public class Program
         builder.Services.AddSwaggerGen();
 
         var app = builder.Build();
-        
+
         using (var scope = app.Services.CreateScope())
         {
             try
@@ -31,7 +31,6 @@ public class Program
             {
                 Console.WriteLine(e);
             }
-            
         }
 
         if (app.Environment.IsDevelopment())
@@ -43,13 +42,14 @@ public class Program
                 c.RoutePrefix = string.Empty;
             });
         }
-        
+
         app.UseCors(options =>
         {
             options.AllowAnyOrigin()
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
+        app.UseStaticFiles();
         app.UseAuthorization();
         app.MapControllers();
         app.UseCustomExceptionHandler();

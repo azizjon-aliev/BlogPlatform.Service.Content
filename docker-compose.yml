@@ -11,7 +11,9 @@
       - "7000:80"
     depends_on:
       - content.db
-  
+    volumes:
+      - ./wwwroot:/app/wwwroot
+          
   content.db:
     image: postgres:latest
     ports:
@@ -20,3 +22,7 @@
       POSTGRES_USER: "root"
       POSTGRES_PASSWORD: "root"
       POSTGRES_DB: "BlogPlatformContentDb"
+
+volumes:
+  wwwroot:
+      

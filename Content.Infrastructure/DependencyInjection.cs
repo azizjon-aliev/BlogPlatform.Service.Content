@@ -1,7 +1,9 @@
 using Content.Application.Common.Contracts;
+using Content.Application.Common.Contracts.Providers;
 using Content.Application.Common.Contracts.Repositories;
 using Content.Infrastructure.DataProvider;
 using Content.Infrastructure.DataProvider.Repositories;
+using Content.Infrastructure.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +15,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IContentDbContext, ContentDbContext>();
+        services.AddScoped<IFileProvider, FileProvider>();
         services.AddScoped<IPostRepository, PostRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ITagRepository, TagRepository>();

@@ -7,6 +7,12 @@ public class AddPostCommandValidator : AbstractValidator<AddPostCommand>
 {
     public AddPostCommandValidator(IPostRepository postRepository, ICategoryRepository categoryRepository)
     {
+        RuleFor(x => x.Image)
+            .NotEmpty().WithMessage("Изображение обязательно.")
+            .Must(x => x.Length > 0).WithMessage("Изображение не должно быть пустым.")
+            .Must(x => x.Length < 2097152).WithMessage("Изображение не должно превышать 2MB.")
+            .Must(x => x.ContentType.Contains("image")).WithMessage("Изображение должно быть формата изображения.");
+
         RuleFor(x => x.Title)
             .NotEmpty().WithMessage("Загаловок обязателен.")
             .MinimumLength(5).WithMessage("Заголовок должен содержать не менее 5 символов.")

@@ -5,6 +5,11 @@ WORKDIR /app
 ENV ASPNETCORE_URLS=http://+:80
 EXPOSE 80
 
+# Create the directory for uploads, set permissions, and change ownership
+RUN mkdir -p /app/wwwroot/uploads && \
+    chmod +x /app/wwwroot/uploads \
+    chown -R $APP_UID /app/wwwroot/uploads \
+
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src

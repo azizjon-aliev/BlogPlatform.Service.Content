@@ -75,6 +75,11 @@ namespace Content.Infrastructure.DataProvider.Migrations
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)

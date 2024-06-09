@@ -4,6 +4,7 @@ namespace Content.Domain.Entities;
 
 public class Post : BaseEntity
 {
+    public string ImageUrl { get; set; } = null!;
     public string Title { get; set; } = null!;
 
     public string Content { get; set; } = null!;
