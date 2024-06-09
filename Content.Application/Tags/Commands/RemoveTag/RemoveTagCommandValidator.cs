@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace Content.Application.Tags.Commands.RemoveTag;
 
-public class RemoveTagCommandValidator : AbstractValidator<RemoveCategoryCommand>
+public class RemoveTagCommandValidator : AbstractValidator<RemoveTagCommand>
 {
     public RemoveTagCommandValidator(ITagRepository repository)
     {
