@@ -8,7 +8,7 @@
       - ASPNETCORE_ENVIRONMENT=Development
       - DatabaseSettings__ConnectionString=Host=content.db;Port=5432;Database=BlogPlatformContentDb;Username=root;Password=root
     ports:
-      - "7000:80"
+      - "8000:80"
     depends_on:
       - content.db
   
