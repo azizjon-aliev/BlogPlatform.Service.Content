@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Content.API.Controllers;
 
-public class PostsController(IMediator mediator): ApiController
+public class PostsController(IMediator mediator) : ApiController
 {
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -19,7 +19,7 @@ public class PostsController(IMediator mediator): ApiController
         var request = new GetPostsListQuery();
         return Ok(await mediator.Send(request));
     }
-    
+
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -29,17 +29,17 @@ public class PostsController(IMediator mediator): ApiController
         var response = await mediator.Send(request);
         return Ok(response);
     }
-    
-    
+
+
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<PostDetailVm>> Create([FromBody] AddPostCommand request)
+    public async Task<ActionResult<PostDetailVm>> Create([FromForm] AddPostCommand request)
     {
         var response = await mediator.Send(request);
         return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
     }
-    
+
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -49,6 +49,7 @@ public class PostsController(IMediator mediator): ApiController
         var command = new EditPostCommand
         {
             Id = id,
+            Image = request.Image,
             Title = request.Title,
             Content = request.Content,
             CategoryId = request.CategoryId
@@ -56,7 +57,7 @@ public class PostsController(IMediator mediator): ApiController
         var response = await mediator.Send(command);
         return response;
     }
-    
+
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

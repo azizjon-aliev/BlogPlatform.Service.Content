@@ -7,6 +7,12 @@ public class EditPostCommandValidator : AbstractValidator<EditPostCommand>
 {
     public EditPostCommandValidator(IPostRepository repository, ICategoryRepository categoryRepository)
     {
+        RuleFor(x => x.Image)
+            .NotEmpty().WithMessage("Изображение обязательно.")
+            .Must(x => x.Length > 0).WithMessage("Изображение не должно быть пустым.")
+            .Must(x => x.Length < 2097152).WithMessage("Изображение не должно превышать 2MB.")
+            .Must(x => x.ContentType.Contains("image")).WithMessage("Изображение должно быть формата изображения.");
+
         RuleFor(p => p.Id)
             .NotEmpty().WithMessage("Идентификатор обязателен.")
             .MustAsync(async (id, cancellationToken) =>

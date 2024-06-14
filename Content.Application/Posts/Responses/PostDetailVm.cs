@@ -7,6 +7,8 @@ namespace Content.Application.Posts.Responses;
 public class PostDetailVm : IMapWith<Post>
 {
     public string Id { get; set; }
+
+    public string ImageUrl { get; set; }
     public string Title { get; set; }
     public string Content { get; set; }
     public Category Category { get; set; }
